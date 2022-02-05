@@ -11,8 +11,8 @@ const addPerson = newObject => {
     return request.then(response => response.data)
 }
 
-const deleteEntry = id => {
-    const request = axios.delete(baseUrl + id)
+const deleteEntry = person => {
+    const request = axios.delete(baseUrl + person.id, person)
     return request.then(response => response.data)
 }
 

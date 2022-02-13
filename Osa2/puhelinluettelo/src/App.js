@@ -142,7 +142,8 @@ const App = () => {
         })
         .catch(error => {
           // const message = `Could not add entry ${newPerson.name}`
-          showError(error.response.data)
+          const message = error.response.data.error
+          showError({ message })
         })
     }
   }

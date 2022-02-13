@@ -141,8 +141,8 @@ const App = () => {
           showSuccess({ message })
         })
         .catch(error => {
-          const message = `Could not add entry ${newPerson.name}`
-          showError({ message })
+          // const message = `Could not add entry ${newPerson.name}`
+          showError(error.response.data)
         })
     }
   }

@@ -181,8 +181,9 @@ const App = () => {
           showSuccess({ message })
         })
         .catch(error => {
-          const message = `Information of ${person.name} has already been removed from the server`
-          setPersons(persons.filter(p => person.id !== p.id))
+          // const message = `Information of ${person.name} has already been removed from the server`
+          // setPersons(persons.filter(p => person.id !== p.id))
+          const message = error.response.data.error
           showError({ message })
         })
     }

@@ -1,6 +1,6 @@
 # Fullstack-2022
 
-Fullstack kevät 2022 kurssin tehtävien palautusrepositorio.
+[Fullstack 2022](https://fullstack-hy.github.io/) kurssin tehtävien palautusrepositorio.
 
 ## Osa 3
 

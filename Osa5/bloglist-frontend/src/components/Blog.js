@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 const Blog = ({ blog, likeHandler, user, removeHandler }) => {
   const [showInfo, setShowInfo] = useState(false)
@@ -40,12 +40,12 @@ const Blog = ({ blog, likeHandler, user, removeHandler }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div className='blogInfo' style={blogStyle}>
       <div>
         {blog.title} {blog.author}
         <button onClick={toggleShow}>view</button>
       </div>
-      <div style={showWhenVisible}>
+      <div className='togglable' style={showWhenVisible}>
         <ul style={listStyle}>
           <li>{blog.url}</li>
           <li>likes {blog.likes}
@@ -59,11 +59,11 @@ const Blog = ({ blog, likeHandler, user, removeHandler }) => {
   )
 }
 
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  likeHandler: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  removeHandler: PropTypes.func.isRequired
-}
+// Blog.propTypes = {
+//   blog: PropTypes.object.isRequired,
+//   likeHandler: PropTypes.func.isRequired,
+//   user: PropTypes.object.isRequired,
+//   removeHandler: PropTypes.func.isRequired
+// }
 
 export default Blog

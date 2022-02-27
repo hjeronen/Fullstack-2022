@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, likeHandler, user, removeHandler }) => {
   const [showInfo, setShowInfo] = useState(false)
   const showWhenVisible = { display: showInfo ? '' : 'none' }
 
@@ -21,8 +22,23 @@ const Blog = ({ blog }) => {
 
   const toggleShow = () => setShowInfo(!showInfo)
 
-  const like = () => console.log('like this blog')
-  console.log(blog.user.name)
+  const like = (event) => {
+    event.preventDefault()
+    const updatedBlog = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1,
+      user: blog.user.id
+    }
+    likeHandler(updatedBlog, blog.id)
+  }
+
+  const remove = (event) => {
+    event.preventDefault()
+    removeHandler(blog)
+  }
+
   return (
     <div style={blogStyle}>
       <div>
@@ -32,14 +48,22 @@ const Blog = ({ blog }) => {
       <div style={showWhenVisible}>
         <ul style={listStyle}>
           <li>{blog.url}</li>
-          <li>{blog.likes}
+          <li>likes {blog.likes}
             <button onClick={like}>like</button>
           </li>
           <li>{blog.user.name}</li>
+          {user !== null ? <div><button style={{ backgroundColor: '#008CBA' }} onClick={remove}>remove</button></div> : <div></div>}
         </ul>
       </div>
     </div>
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  likeHandler: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  removeHandler: PropTypes.func.isRequired
 }
 
 export default Blog

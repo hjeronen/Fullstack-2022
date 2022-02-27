@@ -61,12 +61,12 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+      setBlogs(blogs.sort((blog1, blog2) => (-1) * (blog1.likes - blog2.likes)))
     )
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -169,7 +169,7 @@ const App = () => {
 
       const newBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(newBlog))
-      
+
       const message = 'a new blog ' + newBlog.title + ' by ' + newBlog.author + ' added'
       showSuccess({ message })
 
@@ -180,10 +180,43 @@ const App = () => {
 
   }
 
+  const likeBlog = async (blogObject, id) => {
+    try {
+      const updatedBlog = await blogService.addLike(blogObject, id)
+      const newBlogs = await blogService.getAll()
+      setBlogs(newBlogs.sort((blog1, blog2) => (-1) * (blog1.likes - blog2.likes)))
+
+      const message = 'Liked blog ' + updatedBlog.title + ' by ' + updatedBlog.author
+      showSuccess({ message })
+
+    } catch (exception) {
+      const message = exception.response.data.error
+      showError({ message })
+    }
+  }
+
+  const removeBlog = async (blog) => {
+    try {
+      const result = window.confirm('Remove blog ' + blog.title + '?')
+      if (result) {
+        const title = blog.title
+        await blogService.remove(blog.id)
+        const newBlogs = await blogService.getAll()
+        setBlogs(newBlogs.sort((blog1, blog2) => (-1) * (blog1.likes - blog2.likes)))
+
+        const message = title + ' removed'
+        showSuccess({ message })
+      }
+    } catch (exception) {
+      const message = exception.response.data.error
+      showError({ message })
+    }
+  }
+
   const showBlogs = () => (
     <div>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} likeHandler={likeBlog} user={user} removeHandler={removeBlog} />
       )}
     </div>
   )

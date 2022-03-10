@@ -21,45 +21,13 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-// const anecdoteReducer = (state = initialState, action) => {
-//   console.log('state now: ', state)
-//   console.log('action', action)
-//   switch (action.type) {
-//     case 'VOTE':
-//       const id = action.data.id
-//       const anecdote = state.find(a => a.id === id)
-//       const votedAnecdote = {...anecdote, votes: anecdote.votes + 1}
-//       return state.map(a => a.id !== id ? a : votedAnecdote).sort((a1, a2) => a2.votes - a1.votes)
-//     case 'NEW_ANECDOTE':
-//       const newAnecdote = asObject(action.data.content)
-//       return [...state, newAnecdote].sort((a1, a2) => a2.votes - a1.votes)
-//     default: return state
-//   }
-// }
-
-// export const createAnecdote = (content) => {
-//   return {
-//     type: 'NEW_ANECDOTE',
-//     data: asObject(content)
-//   }
-// }
-
-// export const vote = (id) => {
-//   return {
-//     type: 'VOTE',
-//     data: {
-//       id: id
-//     }
-//   }
-// }
-
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
   initialState,
   reducers: {
     createAnecdote(state, action) {
       const newAnecdote = asObject(action.payload)
-      state.push(newAnecdote).sort((a1, a2) => a2.votes - a1.votes)
+      state.push(newAnecdote)
     },
     vote(state, action) {
       const id = action.payload
